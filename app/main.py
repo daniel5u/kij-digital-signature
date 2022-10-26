@@ -1,8 +1,9 @@
+import hashlib
 import os
 
 from app.dto.sign_request import SignRequest
 from app.dto.sign_response import SignResponse
-from hash.sha256 import SHA256
+from hash.hashlib import Hashlib
 from view.main_view import MainView, CryptoHashFunctionOption, OperationOption
 
 BUF_SIZE = 65536
@@ -38,7 +39,7 @@ class App:
 
         # TODO: add more options
         if chfOpt == CryptoHashFunctionOption.SHA256.value:
-            sha256 = SHA256(BUF_SIZE)
+            sha256 = Hashlib(BUF_SIZE, hashlib.sha256())
             hashValue = sha256.hashFile(signRequest.filePath)
         else:
             print("ERROR: invalid hash algorithm option")

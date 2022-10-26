@@ -1,11 +1,14 @@
+from enum import Enum
+
 from app.dto.sign_request import SignRequest
 from app.dto.sign_response import SignResponse
-from enum import Enum
+
 
 class OperationOption(Enum):
     EXIT = 0
     SIGN = 1
     VERIFY = 2
+
 
 class CryptoHashFunctionOption(Enum):
     SHA1 = 0
@@ -13,6 +16,7 @@ class CryptoHashFunctionOption(Enum):
     SHA256 = 2
     SHA384 = 3
     SHA512 = 4
+
 
 class MainView:
     def __init__(self):

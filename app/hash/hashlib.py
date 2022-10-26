@@ -1,21 +1,18 @@
-import hashlib
-
 from app.hash.interface import ICryptoHashFunction
 
 
-class SHA256(ICryptoHashFunction):
-    def __init__(self, bufferSize):
+class Hashlib(ICryptoHashFunction):
+    def __init__(self, bufferSize, hashObject):
         self.bufferSize = bufferSize
+        self.hashObject = hashObject
 
     # https://stackoverflow.com/questions/22058048/hashing-a-file-in-python
     def hashFile(self, path):
-        sha256 = hashlib.sha256()
-
         with open(path, 'rb') as f:
             while True:
                 data = f.read(self.bufferSize)
                 if not data:
                     break
-                sha256.update(data)
+                self.hashObject.update(data)
 
-        return sha256.hexdigest()
+        return self.hashObject.hexdigest()

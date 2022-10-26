@@ -38,9 +38,26 @@ class App:
         hashValue = ""
 
         # TODO: add more options
-        if chfOpt == CryptoHashFunctionOption.SHA256.value:
+        if chfOpt == CryptoHashFunctionOption.SHA1.value:
+            sha1 = Hashlib(BUF_SIZE, hashlib.sha1())
+            hashValue = sha1.hashFile(signRequest.filePath)
+
+        elif chfOpt == CryptoHashFunctionOption.SHA224.value:
+            sha224 = Hashlib(BUF_SIZE, hashlib.sha224())
+            hashValue = sha224.hashFile(signRequest.filePath)
+
+        elif chfOpt == CryptoHashFunctionOption.SHA256.value:
             sha256 = Hashlib(BUF_SIZE, hashlib.sha256())
             hashValue = sha256.hashFile(signRequest.filePath)
+
+        elif chfOpt == CryptoHashFunctionOption.SHA384.value:
+            sha384 = Hashlib(BUF_SIZE, hashlib.sha384())
+            hashValue = sha384.hashFile(signRequest.filePath)
+
+        elif chfOpt == CryptoHashFunctionOption.SHA512.value:
+            sha512 = Hashlib(BUF_SIZE, hashlib.sha512())
+            hashValue = sha512.hashFile(signRequest.filePath)
+
         else:
             print("ERROR: invalid hash algorithm option")
             return
@@ -74,6 +91,8 @@ class App:
             elif operation == OperationOption.VERIFY.value:
                 # TODO: implement
                 self.verify()
+            else:
+                print("ERROR: invalid operation option")
 
 
 def main():

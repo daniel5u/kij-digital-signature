@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class SignRequest:
     chfOpt: str
     filePath: str
+    privateKeyPath: str

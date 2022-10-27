@@ -132,4 +132,4 @@ dmypy.json
 .idea/
 
 # App
-key_pair/*
+key_pair/*.pem

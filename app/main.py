@@ -1,12 +1,14 @@
 import hashlib
 import os
 
-from app.dto.sign_request import SignRequest
-from app.dto.sign_response import SignResponse
+from crypto.rsa import PyCryptodomeRSA
+from dto.sign_request import SignRequest
+from dto.sign_response import SignResponse
 from hash.hashlib import Hashlib
 from view.main_view import MainView, CryptoHashFunctionOption, OperationOption
 
 BUF_SIZE = 65536
+RSA_KEYPAIR_BITS = 1024
 
 
 class App:
@@ -73,6 +75,14 @@ class App:
     def verify(self):
         pass
 
+    def genKeyPair(self, bits, dstDirPath):
+        privateKey = PyCryptodomeRSA.generateKeyPair(bits)
+        PyCryptodomeRSA.exportKey(privateKey, os.path.join(dstDirPath, 'private_key.pem'))
+        PyCryptodomeRSA.exportKey(privateKey.public_key(), os.path.join(dstDirPath, 'public_key.pem'))
+        print("")
+        print("RSA key pair generated successfully")
+        print("")
+
     def run(self):
         while True:
             print("Operations:")
@@ -91,6 +101,8 @@ class App:
             elif operation == OperationOption.VERIFY.value:
                 # TODO: implement
                 self.verify()
+            elif operation == OperationOption.GENERATE_RSA_KEYPAIR.value:
+                self.genKeyPair(RSA_KEYPAIR_BITS, os.path.join("..", "key_pair"))
             else:
                 print("ERROR: invalid operation option")
 

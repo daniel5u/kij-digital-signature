@@ -8,6 +8,7 @@ class OperationOption(Enum):
     EXIT = 0
     SIGN = 1
     VERIFY = 2
+    GENERATE_RSA_KEYPAIR = 3
 
 
 class CryptoHashFunctionOption(Enum):

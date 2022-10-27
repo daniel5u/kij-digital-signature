@@ -1,3 +1,5 @@
+import hashlib
+
 from app.hash.interface import ICryptoHashFunction
 
 
@@ -15,4 +17,4 @@ class Hashlib(ICryptoHashFunction):
                     break
                 self.hashObject.update(data)
 
-        return self.hashObject.hexdigest()
+        return self.hashObject.digest()

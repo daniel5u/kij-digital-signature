@@ -42,8 +42,10 @@ class MainView:
     def getSignRequest(self) -> SignRequest:
         chfOpt = input("Algorithm: ")
         filePath = input("File path: ")
-        return SignRequest(chfOpt, filePath)
+        privateKeyPath = input("Private key path: ")
+        return SignRequest(chfOpt, filePath, privateKeyPath)
 
     def printSignResponse(self, signResponse: SignResponse):
         print(f"Algorithm: {CryptoHashFunctionOption(signResponse.chfOpt).name}")
-        print(f"Hash: {signResponse.hashValue}")
+        print(f"Encrypted hash: {signResponse.encryptedHashValue}")
+        print(f"Signature path: {signResponse.signaturePath}")

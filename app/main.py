@@ -22,6 +22,9 @@ class App:
         if not os.path.isfile(signRequest.filePath):
             raise Exception("file not found")
 
+        if not os.path.isfile(signRequest.privateKeyPath):
+            raise Exception("private key not found")
+
     def sign(self):
         print("Hash algorithms:")
         self.view.printCryptoHashFunctionOptions()
@@ -64,11 +67,29 @@ class App:
             print("ERROR: invalid hash algorithm option")
             return
 
+        filename = os.path.basename(signRequest.filePath)
+        name, extension = os.path.splitext(filename)
+
+        privateKey = PyCryptodomeRSA.importKey(signRequest.privateKeyPath)
+        signature = PyCryptodomeRSA.sign(
+            hashValue,
+            'big',
+            privateKey.d,
+            privateKey.n
+        )
+        signatureFilename = f"{name}_signature"
+        signaturePath = os.path.join("..", "signature", signatureFilename)
+        PyCryptodomeRSA.exportSignature(
+            signature,
+            signaturePath
+        )
+
         # print output
         print("")
         self.view.printSignResponse(SignResponse(
             chfOpt,
-            hashValue
+            signature,
+            signaturePath
         ))
         print("")
 

@@ -1,5 +1,3 @@
-import hashlib
-
 from app.hash.interface import ICryptoHashFunction
 
 

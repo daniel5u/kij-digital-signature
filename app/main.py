@@ -17,7 +17,7 @@ class App:
 
     def validateSignRequest(self, signRequest: SignRequest):
         if not signRequest.chfOpt.isdigit():
-            raise Exception("hash algorithm option must be a number")
+            raise TypeError("hash algorithm option must be a number")
 
         if not isFileExist(signRequest.filePath):
             raise Exception("file not found")
@@ -95,7 +95,7 @@ class App:
     def verify(self):
         pass
 
-    def genKeyPair(self, bits, dstDirPath):
+    def genRsaKeyPair(self, bits, dstDirPath):
         privateKey = PyCryptodomeRSA.generateKeyPair(bits)
         PyCryptodomeRSA.exportKey(privateKey, os.path.join(dstDirPath, PRIVATE_KEY_FILE_NAME))
         PyCryptodomeRSA.exportKey(privateKey.public_key(), os.path.join(dstDirPath, PUBLIC_KEY_FILE_NAME))
@@ -122,7 +122,7 @@ class App:
                 # TODO: implement
                 self.verify()
             elif operation == OperationOption.GENERATE_RSA_KEY_PAIR.value:
-                self.genKeyPair(RSA_KEY_PAIR_BITS, os.path.join("..", KEY_PAIR_DIR_NAME))
+                self.genRsaKeyPair(RSA_KEY_PAIR_BITS, os.path.join("..", KEY_PAIR_DIR_NAME))
             else:
                 print("ERROR: invalid operation option")
 

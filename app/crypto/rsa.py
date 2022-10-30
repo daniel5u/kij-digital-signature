@@ -12,7 +12,7 @@ class PyCryptodomeRSA:
 
     @staticmethod
     def importKey(filePath):
-        with open(filePath, "r") as f:
+        with open(filePath, "rb") as f:
             return RSA.importKey(f.read())
 
     # https://cryptobook.nakov.com/digital-signatures/rsa-sign-verify-examples
@@ -22,9 +22,19 @@ class PyCryptodomeRSA:
         signature = pow(hash, d, n)
         return hex(signature)
 
-    # TODO: check if this is correct
+    @staticmethod
+    def verify(signature, digest, byteorder, e, n):
+        hash = int.from_bytes(digest, byteorder=byteorder)
+        hashFromSignature = pow(signature, e, n)
+        return hash == hashFromSignature
+
     @staticmethod
     def exportSignature(signature, filePath):
         with open(filePath, "w") as f:
             f.write(signature)
 
+    @staticmethod
+    def importSignature(filePath):
+        with open(filePath, "r") as f:
+            hexString = f.read()
+            return int(hexString, 16)

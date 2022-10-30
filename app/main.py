@@ -3,6 +3,7 @@ import os
 
 from app.constant import BUFFER_SIZE, RSA_KEY_PAIR_BITS, SIGNATURE_DIR_NAME, PRIVATE_KEY_FILE_NAME, \
     PUBLIC_KEY_FILE_NAME, KEY_PAIR_DIR_NAME
+from app.dto.verify_request import VerifyRequest
 from app.file_hasher import FileHasher
 from crypto.rsa import PyCryptodomeRSA
 from dto.sign_request import SignRequest
@@ -24,6 +25,19 @@ class App:
 
         if not isFileExist(signRequest.privateKeyPath):
             raise Exception("private key not found")
+
+    def validateVerifyRequest(self, verifyRequest: VerifyRequest):
+        if not verifyRequest.hashOption.isdigit():
+            raise TypeError("hash algorithm option must be a number")
+
+        if not isFileExist(verifyRequest.filePath):
+            raise Exception("file not found")
+
+        if not isFileExist(verifyRequest.publicKeyPath):
+            raise Exception("public key not found")
+
+        if not isFileExist(verifyRequest.signaturePath):
+            raise Exception("signature not found")
 
     def hash(self, hashOption, filePath):
         if hashOption == HashOption.SHA1.value:
@@ -55,9 +69,10 @@ class App:
             print(f"ERROR: {e}")
             return
 
+        hashOption = int(signRequest.hashOption)
         try:
             hashValue = self.hash(
-                int(signRequest.hashOption),
+                hashOption,
                 signRequest.filePath
             )
         except Exception as e:
@@ -76,7 +91,7 @@ class App:
         signaturePath = os.path.join(
             "..",
             SIGNATURE_DIR_NAME,
-            f"{getFileName(signRequest.filePath)}_signature"
+            f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}"
         )
 
         PyCryptodomeRSA.exportSignature(
@@ -89,7 +104,40 @@ class App:
         ))
 
     def verify(self):
-        pass
+        self.view.printHashOptions()
+
+        verifyRequest = self.view.getVerifyRequest()
+
+        try:
+            self.validateVerifyRequest(verifyRequest)
+        except Exception as e:
+            print(f"ERROR: {e}")
+            return
+
+        try:
+            hashValue = self.hash(
+                int(verifyRequest.hashOption),
+                verifyRequest.filePath
+            )
+        except Exception as e:
+            print(f"ERROR: {e}")
+            return
+
+        publicKey = PyCryptodomeRSA.importKey(verifyRequest.publicKeyPath)
+        signature = PyCryptodomeRSA.importSignature(verifyRequest.signaturePath)
+
+        isMatch = PyCryptodomeRSA.verify(
+            signature,
+            hashValue,
+            "big",
+            publicKey.e,
+            publicKey.n
+        )
+
+        if isMatch:
+            print("Signature matched")
+        else:
+            print("Signature not matched")
 
     def genRsaKeyPair(self, bits, dstDirPath):
         privateKey = PyCryptodomeRSA.generateKeyPair(bits)
@@ -125,11 +173,15 @@ class App:
             elif operation == OperationOption.SIGN.value:
                 self.sign()
             elif operation == OperationOption.VERIFY.value:
-                # TODO: implement
                 self.verify()
             elif operation == OperationOption.GENERATE_RSA_KEY_PAIR.value:
-                self.genRsaKeyPair(RSA_KEY_PAIR_BITS,
-                                   os.path.join("..", KEY_PAIR_DIR_NAME))
+                self.genRsaKeyPair(
+                    RSA_KEY_PAIR_BITS,
+                    os.path.join(
+                        "..",
+                        KEY_PAIR_DIR_NAME
+                    )
+                )
             else:
                 print("ERROR: invalid operation option")
 

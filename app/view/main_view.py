@@ -2,7 +2,7 @@ from enum import Enum
 
 from app.dto.sign_request import SignRequest
 from app.dto.sign_response import SignResponse
-
+from app.dto.verify_request import VerifyRequest
 
 class OperationOption(Enum):
     EXIT = 0
@@ -50,3 +50,15 @@ class MainView:
         print("")
         print(f"Signature path: {signResponse.signaturePath}")
         print("")
+
+    def getVerifyRequest(self) -> VerifyRequest:
+        hashOption = input("Algorithm: ")
+        filePath = input("File path: ")
+        publicKeyPath = input("Public key path: ")
+        signaturePath = input("Signature path: ")
+        return VerifyRequest(
+            hashOption,
+            filePath,
+            publicKeyPath,
+            signaturePath
+        )

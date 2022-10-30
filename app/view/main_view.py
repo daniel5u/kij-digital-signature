@@ -24,7 +24,7 @@ class MainView:
         self.operationOptions = {
             i.name: i.value for i in OperationOption
         }
-        self.cryptoHashFunctionOptions = {
+        self.hashOptions = {
             i.name: i.value for i in HashOption
         }
 
@@ -33,7 +33,7 @@ class MainView:
             print(f"[{val}] {key}")
 
     def printCryptoHashFunctionOptions(self):
-        for key, val in self.cryptoHashFunctionOptions.items():
+        for key, val in self.hashOptions.items():
             print(f"[{val}] {key}")
 
     def getOperation(self):

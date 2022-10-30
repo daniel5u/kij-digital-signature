@@ -3,6 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class SignResponse:
-    chfOpt: int
+    hashOption: int
     encryptedHashValue: str
     signaturePath: str

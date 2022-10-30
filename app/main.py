@@ -8,7 +8,7 @@ from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
 from file_util import isFileExist, getFileName
 from hash.hashlib import Hashlib
-from view.main_view import MainView, CryptoHashFunctionOption, OperationOption
+from view.main_view import MainView, HashOption, OperationOption
 
 
 class App:
@@ -16,7 +16,7 @@ class App:
         self.view = MainView()
 
     def validateSignRequest(self, signRequest: SignRequest):
-        if not signRequest.chfOpt.isdigit():
+        if not signRequest.hashOption.isdigit():
             raise TypeError("hash algorithm option must be a number")
 
         if not isFileExist(signRequest.filePath):
@@ -39,27 +39,27 @@ class App:
             print(f"ERROR: {e}")
             return
 
-        chfOpt = int(signRequest.chfOpt)
+        hashOption = int(signRequest.hashOption)
         hashValue = ""
 
         # TODO: add more options
-        if chfOpt == CryptoHashFunctionOption.SHA1.value:
+        if hashOption == HashOption.SHA1.value:
             sha1 = Hashlib(BUFFER_SIZE, hashlib.sha1())
             hashValue = sha1.hashFile(signRequest.filePath)
 
-        elif chfOpt == CryptoHashFunctionOption.SHA224.value:
+        elif hashOption == HashOption.SHA224.value:
             sha224 = Hashlib(BUFFER_SIZE, hashlib.sha224())
             hashValue = sha224.hashFile(signRequest.filePath)
 
-        elif chfOpt == CryptoHashFunctionOption.SHA256.value:
+        elif hashOption == HashOption.SHA256.value:
             sha256 = Hashlib(BUFFER_SIZE, hashlib.sha256())
             hashValue = sha256.hashFile(signRequest.filePath)
 
-        elif chfOpt == CryptoHashFunctionOption.SHA384.value:
+        elif hashOption == HashOption.SHA384.value:
             sha384 = Hashlib(BUFFER_SIZE, hashlib.sha384())
             hashValue = sha384.hashFile(signRequest.filePath)
 
-        elif chfOpt == CryptoHashFunctionOption.SHA512.value:
+        elif hashOption == HashOption.SHA512.value:
             sha512 = Hashlib(BUFFER_SIZE, hashlib.sha512())
             hashValue = sha512.hashFile(signRequest.filePath)
 
@@ -77,14 +77,15 @@ class App:
             privateKey.n
         )
         signatureFilename = f"{name}_signature"
-        signaturePath = os.path.join("..", SIGNATURE_DIR_NAME, signatureFilename)
+        signaturePath = os.path.join(
+            "..", SIGNATURE_DIR_NAME, signatureFilename)
         PyCryptodomeRSA.exportSignature(
             signature,
             signaturePath
         )
 
         self.view.printSignResponse(SignResponse(
-            chfOpt,
+            hashOption,
             signature,
             signaturePath
         ))
@@ -94,8 +95,10 @@ class App:
 
     def genRsaKeyPair(self, bits, dstDirPath):
         privateKey = PyCryptodomeRSA.generateKeyPair(bits)
-        PyCryptodomeRSA.exportKey(privateKey, os.path.join(dstDirPath, PRIVATE_KEY_FILE_NAME))
-        PyCryptodomeRSA.exportKey(privateKey.public_key(), os.path.join(dstDirPath, PUBLIC_KEY_FILE_NAME))
+        PyCryptodomeRSA.exportKey(privateKey, os.path.join(
+            dstDirPath, PRIVATE_KEY_FILE_NAME))
+        PyCryptodomeRSA.exportKey(privateKey.public_key(
+        ), os.path.join(dstDirPath, PUBLIC_KEY_FILE_NAME))
         print("\nRSA key pair generated successfully\n")
 
     def run(self):
@@ -117,7 +120,8 @@ class App:
                 # TODO: implement
                 self.verify()
             elif operation == OperationOption.GENERATE_RSA_KEY_PAIR.value:
-                self.genRsaKeyPair(RSA_KEY_PAIR_BITS, os.path.join("..", KEY_PAIR_DIR_NAME))
+                self.genRsaKeyPair(RSA_KEY_PAIR_BITS,
+                                   os.path.join("..", KEY_PAIR_DIR_NAME))
             else:
                 print("ERROR: invalid operation option")
 

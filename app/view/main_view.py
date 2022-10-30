@@ -11,7 +11,7 @@ class OperationOption(Enum):
     GENERATE_RSA_KEY_PAIR = 3
 
 
-class CryptoHashFunctionOption(Enum):
+class HashOption(Enum):
     SHA1 = 0
     SHA224 = 1
     SHA256 = 2
@@ -25,7 +25,7 @@ class MainView:
             i.name: i.value for i in OperationOption
         }
         self.cryptoHashFunctionOptions = {
-            i.name: i.value for i in CryptoHashFunctionOption
+            i.name: i.value for i in HashOption
         }
 
     def printOperations(self):
@@ -40,14 +40,15 @@ class MainView:
         return input("Operation: ")
 
     def getSignRequest(self) -> SignRequest:
-        chfOpt = input("Algorithm: ")
+        hashOption = input("Algorithm: ")
         filePath = input("File path: ")
         privateKeyPath = input("Private key path: ")
-        return SignRequest(chfOpt, filePath, privateKeyPath)
+        return SignRequest(hashOption, filePath, privateKeyPath)
 
     def printSignResponse(self, signResponse: SignResponse):
         print("")
-        print(f"Algorithm: {CryptoHashFunctionOption(signResponse.chfOpt).name}")
+        print(
+            f"Algorithm: {HashOption(signResponse.hashOption).name}")
         print(f"Encrypted hash: {signResponse.encryptedHashValue}")
         print(f"Signature path: {signResponse.signaturePath}")
         print("")

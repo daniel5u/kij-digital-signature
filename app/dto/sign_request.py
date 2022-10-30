@@ -3,6 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class SignRequest:
-    chfOpt: str
+    hashOption: str
     filePath: str
     privateKeyPath: str

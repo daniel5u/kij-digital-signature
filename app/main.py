@@ -3,11 +3,11 @@ import os
 
 from app.constant import BUFFER_SIZE, RSA_KEY_PAIR_BITS, SIGNATURE_DIR_NAME, PRIVATE_KEY_FILE_NAME, \
     PUBLIC_KEY_FILE_NAME, KEY_PAIR_DIR_NAME
+from app.file_hasher import FileHasher
 from crypto.rsa import PyCryptodomeRSA
 from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
 from file_util import isFileExist, getFileName
-from hash.hashlib import Hashlib
 from view.main_view import MainView, HashOption, OperationOption
 
 
@@ -44,23 +44,23 @@ class App:
 
         # TODO: add more options
         if hashOption == HashOption.SHA1.value:
-            sha1 = Hashlib(BUFFER_SIZE, hashlib.sha1())
+            sha1 = FileHasher(BUFFER_SIZE, hashlib.sha1())
             hashValue = sha1.hashFile(signRequest.filePath)
 
         elif hashOption == HashOption.SHA224.value:
-            sha224 = Hashlib(BUFFER_SIZE, hashlib.sha224())
+            sha224 = FileHasher(BUFFER_SIZE, hashlib.sha224())
             hashValue = sha224.hashFile(signRequest.filePath)
 
         elif hashOption == HashOption.SHA256.value:
-            sha256 = Hashlib(BUFFER_SIZE, hashlib.sha256())
+            sha256 = FileHasher(BUFFER_SIZE, hashlib.sha256())
             hashValue = sha256.hashFile(signRequest.filePath)
 
         elif hashOption == HashOption.SHA384.value:
-            sha384 = Hashlib(BUFFER_SIZE, hashlib.sha384())
+            sha384 = FileHasher(BUFFER_SIZE, hashlib.sha384())
             hashValue = sha384.hashFile(signRequest.filePath)
 
         elif hashOption == HashOption.SHA512.value:
-            sha512 = Hashlib(BUFFER_SIZE, hashlib.sha512())
+            sha512 = FileHasher(BUFFER_SIZE, hashlib.sha512())
             hashValue = sha512.hashFile(signRequest.filePath)
 
         else:

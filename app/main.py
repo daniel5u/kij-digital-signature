@@ -25,68 +25,66 @@ class App:
         if not isFileExist(signRequest.privateKeyPath):
             raise Exception("private key not found")
 
-    def sign(self):
-        print("Hash algorithms:")
-        self.view.printCryptoHashFunctionOptions()
+    def hash(self, hashOption, filePath):
+        if hashOption == HashOption.SHA1.value:
+            sha1 = FileHasher(BUFFER_SIZE, hashlib.sha1())
+            return sha1.hashFile(filePath)
+        elif hashOption == HashOption.SHA224.value:
+            sha224 = FileHasher(BUFFER_SIZE, hashlib.sha224())
+            return sha224.hashFile(filePath)
+        elif hashOption == HashOption.SHA256.value:
+            sha256 = FileHasher(BUFFER_SIZE, hashlib.sha256())
+            return sha256.hashFile(filePath)
+        elif hashOption == HashOption.SHA384.value:
+            sha384 = FileHasher(BUFFER_SIZE, hashlib.sha384())
+            return sha384.hashFile(filePath)
+        elif hashOption == HashOption.SHA512.value:
+            sha512 = FileHasher(BUFFER_SIZE, hashlib.sha512())
+            return sha512.hashFile(filePath)
+        else:
+            raise Exception("invalid hash algorithm option")
 
-        # get input
+    def sign(self):
+        self.view.printHashOptions()
+
         signRequest = self.view.getSignRequest()
 
-        # validate input
         try:
             self.validateSignRequest(signRequest)
         except Exception as e:
             print(f"ERROR: {e}")
             return
 
-        hashOption = int(signRequest.hashOption)
-        hashValue = ""
-
-        # TODO: add more options
-        if hashOption == HashOption.SHA1.value:
-            sha1 = FileHasher(BUFFER_SIZE, hashlib.sha1())
-            hashValue = sha1.hashFile(signRequest.filePath)
-
-        elif hashOption == HashOption.SHA224.value:
-            sha224 = FileHasher(BUFFER_SIZE, hashlib.sha224())
-            hashValue = sha224.hashFile(signRequest.filePath)
-
-        elif hashOption == HashOption.SHA256.value:
-            sha256 = FileHasher(BUFFER_SIZE, hashlib.sha256())
-            hashValue = sha256.hashFile(signRequest.filePath)
-
-        elif hashOption == HashOption.SHA384.value:
-            sha384 = FileHasher(BUFFER_SIZE, hashlib.sha384())
-            hashValue = sha384.hashFile(signRequest.filePath)
-
-        elif hashOption == HashOption.SHA512.value:
-            sha512 = FileHasher(BUFFER_SIZE, hashlib.sha512())
-            hashValue = sha512.hashFile(signRequest.filePath)
-
-        else:
-            print("ERROR: invalid hash algorithm option")
+        try:
+            hashValue = self.hash(
+                int(signRequest.hashOption),
+                signRequest.filePath
+            )
+        except Exception as e:
+            print(f"ERROR: {e}")
             return
 
-        name = getFileName(signRequest.filePath)
-
         privateKey = PyCryptodomeRSA.importKey(signRequest.privateKeyPath)
+
         signature = PyCryptodomeRSA.sign(
             hashValue,
-            'big',
+            "big",
             privateKey.d,
             privateKey.n
         )
-        signatureFilename = f"{name}_signature"
+
         signaturePath = os.path.join(
-            "..", SIGNATURE_DIR_NAME, signatureFilename)
+            "..",
+            SIGNATURE_DIR_NAME,
+            f"{getFileName(signRequest.filePath)}_signature"
+        )
+
         PyCryptodomeRSA.exportSignature(
             signature,
             signaturePath
         )
 
         self.view.printSignResponse(SignResponse(
-            hashOption,
-            signature,
             signaturePath
         ))
 
@@ -95,10 +93,20 @@ class App:
 
     def genRsaKeyPair(self, bits, dstDirPath):
         privateKey = PyCryptodomeRSA.generateKeyPair(bits)
-        PyCryptodomeRSA.exportKey(privateKey, os.path.join(
-            dstDirPath, PRIVATE_KEY_FILE_NAME))
-        PyCryptodomeRSA.exportKey(privateKey.public_key(
-        ), os.path.join(dstDirPath, PUBLIC_KEY_FILE_NAME))
+        PyCryptodomeRSA.exportKey(
+            privateKey,
+            os.path.join(
+                dstDirPath,
+                PRIVATE_KEY_FILE_NAME
+            )
+        )
+        PyCryptodomeRSA.exportKey(
+            privateKey.public_key(),
+            os.path.join(
+                dstDirPath,
+                PUBLIC_KEY_FILE_NAME
+            )
+        )
         print("\nRSA key pair generated successfully\n")
 
     def run(self):
@@ -131,5 +139,5 @@ def main():
     app.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

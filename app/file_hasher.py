@@ -1,4 +1,4 @@
-class Hashlib:
+class FileHasher:
     def __init__(self, bufferSize, hashObject):
         self.bufferSize = bufferSize
         self.hashObject = hashObject

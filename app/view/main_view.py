@@ -32,7 +32,8 @@ class MainView:
         for key, val in self.operationOptions.items():
             print(f"[{val}] {key}")
 
-    def printCryptoHashFunctionOptions(self):
+    def printHashOptions(self):
+        print("Hash algorithms:")
         for key, val in self.hashOptions.items():
             print(f"[{val}] {key}")
 
@@ -47,8 +48,5 @@ class MainView:
 
     def printSignResponse(self, signResponse: SignResponse):
         print("")
-        print(
-            f"Algorithm: {HashOption(signResponse.hashOption).name}")
-        print(f"Encrypted hash: {signResponse.encryptedHashValue}")
         print(f"Signature path: {signResponse.signaturePath}")
         print("")

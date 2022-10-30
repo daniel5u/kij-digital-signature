@@ -1,7 +1,4 @@
-from app.hash.interface import ICryptoHashFunction
-
-
-class Hashlib(ICryptoHashFunction):
+class Hashlib:
     def __init__(self, bufferSize, hashObject):
         self.bufferSize = bufferSize
         self.hashObject = hashObject

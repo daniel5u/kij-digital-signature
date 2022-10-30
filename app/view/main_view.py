@@ -46,6 +46,8 @@ class MainView:
         return SignRequest(chfOpt, filePath, privateKeyPath)
 
     def printSignResponse(self, signResponse: SignResponse):
+        print("")
         print(f"Algorithm: {CryptoHashFunctionOption(signResponse.chfOpt).name}")
         print(f"Encrypted hash: {signResponse.encryptedHashValue}")
         print(f"Signature path: {signResponse.signaturePath}")
+        print("")

@@ -83,14 +83,11 @@ class App:
             signaturePath
         )
 
-        # print output
-        print("")
         self.view.printSignResponse(SignResponse(
             chfOpt,
             signature,
             signaturePath
         ))
-        print("")
 
     def verify(self):
         pass
@@ -99,9 +96,7 @@ class App:
         privateKey = PyCryptodomeRSA.generateKeyPair(bits)
         PyCryptodomeRSA.exportKey(privateKey, os.path.join(dstDirPath, PRIVATE_KEY_FILE_NAME))
         PyCryptodomeRSA.exportKey(privateKey.public_key(), os.path.join(dstDirPath, PUBLIC_KEY_FILE_NAME))
-        print("")
-        print("RSA key pair generated successfully")
-        print("")
+        print("\nRSA key pair generated successfully\n")
 
     def run(self):
         while True:

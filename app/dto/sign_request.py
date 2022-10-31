@@ -10,11 +10,14 @@ class SignRequest(Validatable):
     privateKeyPath: str
     
     def validate(self):
-        if not self.hashOption.isdigit():
-            raise TypeError("hash algorithm option must be a number")
-
-        if not isFileExist(self.filePath):
-            raise Exception("file not found")
-
-        if not isFileExist(self.privateKeyPath):
-            raise Exception("private key not found")
+        fieldNames = {
+            "hashOption": "Hash algorithm option",
+            "filePath": "File",
+            "privateKeyPath": "Private key",
+        }
+        
+        self.isDigit(self.hashOption, fieldNames["hashOption"])
+        self.fileExists(self.filePath, fieldNames["filePath"])
+        self.fileExists(self.privateKeyPath, fieldNames["privateKeyPath"])
+        self.fileHasExtension(self.filePath, fieldNames["filePath"], ".pdf")
+        self.fileHasExtension(self.privateKeyPath, fieldNames["privateKeyPath"], ".pem")

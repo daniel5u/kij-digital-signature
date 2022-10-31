@@ -26,21 +26,21 @@ class MainView:
         for key, val in self.hashOptions.items():
             print(f"[{val}] {key}")
 
-    def getOperation(self):
+    def getOperation():
         return input("Operation: ")
 
-    def getSignRequest(self) -> SignRequest:
+    def getSignRequest() -> SignRequest:
         hashOption = input("Algorithm: ")
         filePath = input("File path: ")
         privateKeyPath = input("Private key path: ")
         return SignRequest(hashOption, filePath, privateKeyPath)
 
-    def printSignResponse(self, signResponse: SignResponse):
+    def printSignResponse(signResponse: SignResponse):
         print("")
         print(f"Signature path: {signResponse.signaturePath}")
         print("")
 
-    def getVerifyRequest(self) -> VerifyRequest:
+    def getVerifyRequest() -> VerifyRequest:
         hashOption = input("Algorithm: ")
         filePath = input("File path: ")
         publicKeyPath = input("Public key path: ")
@@ -52,17 +52,20 @@ class MainView:
             signaturePath
         )
         
-    def printVerifyResponse(self, verifyResponse: VerifyResponse):
+    def printVerifyResponse(verifyResponse: VerifyResponse):
         if verifyResponse.isMatch:
             print("Signature matched")
         else:
             print("Signature not matched")
             
-    def printInvalidOptionDataType(self):
+    def printInvalidOptionDataType():
         print("ERROR: operation option must be a number")
             
-    def printInvalidOperation(self):
+    def printInvalidOperation():
         print("ERROR: invalid operation option")
         
-    def printGenRSAKeyPairResponse(self):
+    def printGenRSAKeyPairResponse():
         print("\nRSA key pair generated successfully\n")
+        
+    def printException(e: Exception):
+        print(f"ERROR: {e}")

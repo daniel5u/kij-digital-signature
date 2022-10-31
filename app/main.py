@@ -17,7 +17,7 @@ class App:
             signRequest.validate()
             signResponse = Sign.do(signRequest)
         except Exception as e:
-            print(f"ERROR: {e}")
+            self.view.printException(e)
             return
 
         self.view.printSignResponse(signResponse)
@@ -31,7 +31,7 @@ class App:
             verifyRequest.validate()
             verifyResponse = Verify.do(verifyRequest)
         except Exception as e:
-            print(f"ERROR: {e}")
+            self.view.printException(e)
             return
         
         self.view.printVerifyResponse(verifyResponse)

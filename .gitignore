@@ -132,8 +132,12 @@ dmypy.json
 .idea/
 
 # App
-key_pair/*.pem
+key_pair/*
+!key_pair/.gitkeep
+
 signature/*
+!signature/.gitkeep
+
 storage/*
 !storage/.gitkeep
 !storage/abc.pdf

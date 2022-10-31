@@ -134,3 +134,7 @@ dmypy.json
 # App
 key_pair/*.pem
 signature/*
+storage/*
+!storage/.gitkeep
+!storage/abc.pdf
+!storage/hello.pdf

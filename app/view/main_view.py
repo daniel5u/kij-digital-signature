@@ -1,8 +1,8 @@
 from enum import Enum
 
-from app.dto.sign_request import SignRequest
-from app.dto.sign_response import SignResponse
-from app.dto.verify_request import VerifyRequest
+from dto.sign_request import SignRequest
+from dto.sign_response import SignResponse
+from dto.verify_request import VerifyRequest
 
 class OperationOption(Enum):
     EXIT = 0

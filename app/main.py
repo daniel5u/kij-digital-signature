@@ -89,7 +89,7 @@ class App:
         )
 
         signaturePath = os.path.join(
-            "..",
+            "./",
             SIGNATURE_DIR_NAME,
             f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}"
         )
@@ -178,7 +178,7 @@ class App:
                 self.genRsaKeyPair(
                     RSA_KEY_PAIR_BITS,
                     os.path.join(
-                        "..",
+                        "./",
                         KEY_PAIR_DIR_NAME
                     )
                 )

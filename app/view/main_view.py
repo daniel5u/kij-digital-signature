@@ -3,20 +3,8 @@ from enum import Enum
 from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
 from dto.verify_request import VerifyRequest
-
-class OperationOption(Enum):
-    EXIT = 0
-    SIGN = 1
-    VERIFY = 2
-    GENERATE_RSA_KEY_PAIR = 3
-
-
-class HashOption(Enum):
-    SHA1 = 0
-    SHA224 = 1
-    SHA256 = 2
-    SHA384 = 3
-    SHA512 = 4
+from dto.verify_response import VerifyResponse
+from hash_util import OperationOption, HashOption
 
 
 class MainView:
@@ -29,6 +17,7 @@ class MainView:
         }
 
     def printOperations(self):
+        print("Operations:")
         for key, val in self.operationOptions.items():
             print(f"[{val}] {key}")
 
@@ -62,3 +51,18 @@ class MainView:
             publicKeyPath,
             signaturePath
         )
+        
+    def printVerifyResponse(self, verifyResponse: VerifyResponse):
+        if verifyResponse.isMatch:
+            print("Signature matched")
+        else:
+            print("Signature not matched")
+            
+    def printInvalidOptionDataType(self):
+        print("ERROR: operation option must be a number")
+            
+    def printInvalidOperation(self):
+        print("ERROR: invalid operation option")
+        
+    def printGenRSAKeyPairResponse(self):
+        print("\nRSA key pair generated successfully\n")

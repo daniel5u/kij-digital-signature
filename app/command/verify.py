@@ -2,6 +2,7 @@ from dto.verify_request import VerifyRequest
 from dto.verify_response import VerifyResponse
 from hash_util import getHash
 from crypto.rsa import PyCryptodomeRSA
+from constant import KEY_PAIR_DIR_NAME, PUBLIC_KEY_FILE_NAME
 
 
 class Verify:
@@ -16,7 +17,8 @@ class Verify:
             print(f"ERROR: {e}")
             return
 
-        publicKey = PyCryptodomeRSA.importKey(verifyRequest.publicKeyPath)
+        publicKeyPath = f"{KEY_PAIR_DIR_NAME}/{PUBLIC_KEY_FILE_NAME}"
+        publicKey = PyCryptodomeRSA.importKey(publicKeyPath)
         signature = PyCryptodomeRSA.importSignature(verifyRequest.signaturePath)
 
         isMatch = PyCryptodomeRSA.verify(

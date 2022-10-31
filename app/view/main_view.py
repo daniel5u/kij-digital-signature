@@ -4,7 +4,7 @@ from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
 from dto.verify_request import VerifyRequest
 from dto.verify_response import VerifyResponse
-from hash_util import OperationOption, HashOption
+from util.hash import OperationOption, HashOption
 
 
 class MainView:

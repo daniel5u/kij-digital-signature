@@ -1,6 +1,6 @@
 from enum import Enum
 from constant import BUFFER_SIZE
-from file_hasher import FileHasher
+from util.file_hasher import FileHasher
 import hashlib
 
 

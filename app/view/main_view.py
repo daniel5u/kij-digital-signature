@@ -32,8 +32,7 @@ class MainView:
     def getSignRequest(self) -> SignRequest:
         hashOption = input("Algorithm: ")
         filePath = input("File path: ")
-        privateKeyPath = input("Private key path: ")
-        return SignRequest(hashOption, filePath, privateKeyPath)
+        return SignRequest(hashOption, filePath)
 
     def printSignResponse(self, signResponse: SignResponse):
         print("")
@@ -66,6 +65,3 @@ class MainView:
         
     def printGenRSAKeyPairResponse(self):
         print("\nRSA key pair generated successfully\n")
-        
-    def printException(self, e: Exception):
-        print(f"ERROR: {e}")

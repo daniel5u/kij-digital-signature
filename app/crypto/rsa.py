@@ -7,7 +7,7 @@ class PyCryptodomeRSA:
 
     @staticmethod
     def exportKey(rsaKey, filePath):
-        with open(filePath, "wb") as f:
+        with open(filePath, "wb+") as f:
             f.write(rsaKey.exportKey("PEM"))
 
     @staticmethod
@@ -30,7 +30,7 @@ class PyCryptodomeRSA:
 
     @staticmethod
     def exportSignature(signature, filePath):
-        with open(filePath, "w") as f:
+        with open(filePath, "w+") as f:
             f.write(signature)
 
     @staticmethod

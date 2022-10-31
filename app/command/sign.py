@@ -1,7 +1,7 @@
 from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
-from hash_util import getHash, HashOption
-from file_util import getFileName, printException
+from util.hash import getHash, HashOption
+from util.file import getFileName, printException
 from constant import SIGNATURE_DIR_NAME, KEY_PAIR_DIR_NAME, PRIVATE_KEY_FILE_NAME
 from crypto.rsa import PyCryptodomeRSA
 import os

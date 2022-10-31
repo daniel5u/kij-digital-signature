@@ -1,6 +1,5 @@
 from enum import Enum
 from constant import BUFFER_SIZE
-from util.file_hasher import FileHasher
 import hashlib
 
 
@@ -17,6 +16,24 @@ class HashOption(Enum):
     SHA256 = 2
     SHA384 = 3
     SHA512 = 4
+
+
+class FileHasher:
+    def __init__(self, bufferSize, hashObject):
+        self.bufferSize = bufferSize
+        self.hashObject = hashObject
+
+    # https://stackoverflow.com/questions/22058048/hashing-a-file-in-python
+    def hashFile(self, path):
+        with open(path, "rb") as f:
+            while True:
+                data = f.read(self.bufferSize)
+                if not data:
+                    break
+                self.hashObject.update(data)
+
+        return self.hashObject.digest()
+
 
 def getHash(hashOption, filePath):
     if hashOption == HashOption.SHA1.value:

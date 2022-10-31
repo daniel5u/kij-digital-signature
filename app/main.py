@@ -60,7 +60,7 @@ class App:
             elif operation == OperationOption.GENERATE_RSA_KEY_PAIR.value:
                 self.genRsaKeyPair()
             else:
-                self.view.printInvalidOptionType()
+                self.view.printInvalidOperation()
 
 
 def main():

@@ -2,6 +2,7 @@ from view.main_view import MainView, OperationOption
 from command.sign import Sign
 from command.verify import Verify
 from command.generate_rsa_key_pair import GenerateRSAKeyPair
+from file_util import printException
 
 
 class App:
@@ -17,7 +18,7 @@ class App:
             signRequest.validate()
             signResponse = Sign.do(signRequest)
         except Exception as e:
-            self.view.printException(e)
+            printException(e)
             return
 
         self.view.printSignResponse(signResponse)
@@ -31,7 +32,7 @@ class App:
             verifyRequest.validate()
             verifyResponse = Verify.do(verifyRequest)
         except Exception as e:
-            self.view.printException(e)
+            printException(e)
             return
         
         self.view.printVerifyResponse(verifyResponse)

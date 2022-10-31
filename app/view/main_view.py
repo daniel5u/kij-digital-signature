@@ -42,12 +42,10 @@ class MainView:
     def getVerifyRequest(self) -> VerifyRequest:
         hashOption = input("Algorithm: ")
         filePath = input("File path: ")
-        publicKeyPath = input("Public key path: ")
         signaturePath = input("Signature path: ")
         return VerifyRequest(
             hashOption,
             filePath,
-            publicKeyPath,
             signaturePath
         )
         

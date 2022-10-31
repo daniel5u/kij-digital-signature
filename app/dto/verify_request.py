@@ -11,14 +11,17 @@ class VerifyRequest(Validatable):
     signaturePath: str
     
     def validate(self):
-        if not self.hashOption.isdigit():
-            raise TypeError("hash algorithm option must be a number")
-
-        if not isFileExist(self.filePath):
-            raise Exception("file not found")
-
-        if not isFileExist(self.publicKeyPath):
-            raise Exception("public key not found")
-
-        if not isFileExist(self.signaturePath):
-            raise Exception("signature not found")
+        fieldNames = {
+            "hashOption": "Hash algorithm option",
+            "filePath": "File",
+            "publicKeyPath": "Public key",
+            "signaturePath": "Signature",
+        }
+        
+        self.isDigit(self.hashOption, fieldNames["hashOption"])
+        self.fileExists(self.filePath, fieldNames["filePath"])
+        self.fileExists(self.publicKeyPath, fieldNames["publicKeyPath"])
+        self.fileExists(self.signaturePath, fieldNames["signaturePath"])
+        self.fileHasExtension(self.filePath, fieldNames["filePath"], ".pdf")
+        self.fileHasExtension(self.publicKeyPath, fieldNames["publicKeyPath"], ".pem")
+        self.fileHasExtension(self.signaturePath, fieldNames["signaturePath"], "")

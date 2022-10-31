@@ -32,12 +32,13 @@ class Sign:
         
         signaturePath = os.path.join(
             SIGNATURE_DIR_NAME,
-            f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}"
+            f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}.pdf"
         )
 
-        PyCryptodomeRSA.exportSignature(
-            signature,
-            signaturePath
+        PyCryptodomeRSA.embedSignatureToPdf(
+            signRequest.filePath,
+            signaturePath,
+            signature
         )
         
         return SignResponse(

@@ -1,4 +1,5 @@
 from Crypto.PublicKey import RSA
+from PyPDF2 import PdfReader, PdfWriter
 
 class PyCryptodomeRSA:
     @staticmethod
@@ -32,6 +33,36 @@ class PyCryptodomeRSA:
     def exportSignature(signature, filePath):
         with open(filePath, "w+") as f:
             f.write(signature)
+
+    # https://pypdf2.readthedocs.io/en/latest/user/metadata.html
+    @staticmethod
+    def embedSignatureToPdf(
+        originPath: str,
+        destinationPath: str,
+        signature: str
+    ):
+        # TODO refactor this as constant, verify gonna need it
+        SIGNATURE_METADATA_KEY = "/Signature"
+
+        reader: PdfReader = PdfReader(originPath)
+        writer: PdfWriter = PdfWriter()
+
+        # Copy pdf from origin to destination
+        for page in reader.pages:
+            writer.addPage(page)
+
+        # Add metadata from origin Pdf
+        writer.addMetadata(reader.getDocumentInfo())
+
+        # Add Signature metadata to Destination Pdf File
+        writer.add_metadata({
+            SIGNATURE_METADATA_KEY: signature
+        })
+
+        # Export Signed PDF file
+        with open(destinationPath, "wb+") as f:
+            writer.write(f)
+
 
     @staticmethod
     def importSignature(filePath):

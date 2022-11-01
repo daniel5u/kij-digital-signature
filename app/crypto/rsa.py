@@ -48,14 +48,14 @@ class PyCryptodomeRSA:
 
         # Copy pdf from origin to destination
         for page in reader.pages:
-            writer.addPage(page)
+            writer.add_page(page)
 
         # Add metadata from origin Pdf
-        writer.addMetadata(reader.getDocumentInfo())
+        writer.add_metadata(reader.metadata)
 
         # Add Signature metadata to Destination Pdf File
         writer.add_metadata({
-            SIGNATURE_METADATA_KEY: signature
+            '/' + SIGNATURE_METADATA_KEY: signature
         })
 
         # Export Signed PDF file

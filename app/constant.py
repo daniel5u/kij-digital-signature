@@ -8,4 +8,4 @@ STORAGE_DIR_NAME = "storage"
 PRIVATE_KEY_FILE_NAME = "private_key.pem"
 PUBLIC_KEY_FILE_NAME = "public_key.pem"
 
-SIGNATURE_METADATA_KEY = "signature"
+SIGNATURE_METADATA_KEY = "Signature"

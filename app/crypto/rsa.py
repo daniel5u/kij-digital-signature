@@ -54,8 +54,9 @@ class PyCryptodomeRSA:
         writer.add_metadata(reader.metadata)
 
         # Add Signature metadata to Destination Pdf File
+        key = '/' + SIGNATURE_METADATA_KEY[0].upper() + SIGNATURE_METADATA_KEY[1:]
         writer.add_metadata({
-            '/' + SIGNATURE_METADATA_KEY: signature
+            key: signature
         })
 
         # Export Signed PDF file
@@ -67,3 +68,19 @@ class PyCryptodomeRSA:
         with open(filePath, "r") as f:
             hexString = f.read()
             return int(hexString, 16)
+    
+    @staticmethod
+    def importEmbeddedSignature(filePath):
+        reader = PdfReader(filePath)
+        metadata = reader.metadata
+        
+        key = SIGNATURE_METADATA_KEY[0].upper() + SIGNATURE_METADATA_KEY[1:]
+        
+        try:
+            signature = metadata['/' . key]
+            if signature is None:
+                raise Exception()
+        except Exception as e:
+            raise Exception(f"Embedded signature with '{key}' as key not found")
+        
+        return int(signature, 16)

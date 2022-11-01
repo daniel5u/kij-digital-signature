@@ -12,14 +12,10 @@ class Sign:
     @staticmethod
     def do(signRequest: SignRequest) -> SignResponse:
         hashOption = int(signRequest.hashOption)
-        try:
-            hashValue = getHash(
-                hashOption,
-                signRequest.filePath
-            )
-        except Exception as e:
-            printException(e)
-            return
+        hashValue = getHash(
+            hashOption,
+            signRequest.filePath
+        )
         
         privateKeyPath = f"{KEY_PAIR_DIR_NAME}/{PRIVATE_KEY_FILE_NAME}"
         privateKey = PyCryptodomeRSA.importKey(privateKeyPath)

@@ -8,18 +8,14 @@ from constant import KEY_PAIR_DIR_NAME, PUBLIC_KEY_FILE_NAME
 class Verify:
     @staticmethod
     def do(verifyRequest: VerifyRequest) -> VerifyResponse:
-        try:
-            hashValue = getHash(
-                int(verifyRequest.hashOption),
-                verifyRequest.filePath
-            )
-        except Exception as e:
-            printException(e)
-            return
+        hashValue = getHash(
+            int(verifyRequest.hashOption),
+            verifyRequest.filePath
+        )
 
         publicKeyPath = f"{KEY_PAIR_DIR_NAME}/{PUBLIC_KEY_FILE_NAME}"
         publicKey = PyCryptodomeRSA.importKey(publicKeyPath)
-        signature = PyCryptodomeRSA.importSignature(verifyRequest.signaturePath)
+        signature = PyCryptodomeRSA.importEmbeddedSignature(verifyRequest.signaturePath)
 
         isMatch = PyCryptodomeRSA.verify(
             signature,

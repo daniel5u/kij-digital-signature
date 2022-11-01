@@ -16,7 +16,7 @@ class MainView:
         self.hashOptions = {
             i.name: i.value for i in HashOption
         }
-        logging.basicConfig(format="%(levelname)s: %(message)s")
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
     def printOperations(self):
         print("Operations:")
@@ -64,4 +64,4 @@ class MainView:
         logging.error("invalid operation option")
         
     def printGenRSAKeyPairResponse(self):
-        logging.info("\nRSA key pair generated successfully\n")
+        logging.info("RSA key pair generated successfully")

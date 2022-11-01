@@ -4,7 +4,6 @@ from command.verify import Verify
 from command.generate_rsa_key_pair import GenerateRSAKeyPair
 from util.file import printException
 
-
 class App:
     def __init__(self):
         self.view = MainView()

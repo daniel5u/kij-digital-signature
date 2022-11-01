@@ -1,4 +1,5 @@
 from enum import Enum
+import logging
 
 from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
@@ -15,6 +16,7 @@ class MainView:
         self.hashOptions = {
             i.name: i.value for i in HashOption
         }
+        logging.basicConfig(format="%(levelname)s: %(message)s")
 
     def printOperations(self):
         print("Operations:")
@@ -56,10 +58,10 @@ class MainView:
             print("Signature not matched")
             
     def printInvalidOptionDataType(self):
-        print("ERROR: operation option must be a number")
+        logging.error("operation option must be a number")
             
     def printInvalidOperation(self):
-        print("ERROR: invalid operation option")
+        logging.error("invalid operation option")
         
     def printGenRSAKeyPairResponse(self):
-        print("\nRSA key pair generated successfully\n")
+        logging.info("\nRSA key pair generated successfully\n")

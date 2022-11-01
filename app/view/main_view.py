@@ -53,9 +53,9 @@ class MainView:
         
     def printVerifyResponse(self, verifyResponse: VerifyResponse):
         if verifyResponse.isMatch:
-            print("Signature matched")
+            logging.info("Signature matched")
         else:
-            print("Signature not matched")
+            logging.info("Signature mismatched")
             
     def printInvalidOptionDataType(self):
         logging.error("operation option must be a number")

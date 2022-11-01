@@ -22,5 +22,5 @@ class Validatable(ABC):
     def isInEnum(self, varName: int, container):
         values = set(item.value for item in container)
 
-        if varName not in values:
-            raise Exception(f"{container(varName).name} is not part of {container}")
+        if int(varName) not in values:
+            raise Exception(f"{varName} is not a valid {container} value")

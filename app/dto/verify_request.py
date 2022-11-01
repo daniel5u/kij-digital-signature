@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from dto.validatable import Validatable
 from os.path import isabs
-from constant import STORAGE_DIR_NAME, SIGNATURE_DIR_NAME
+from constant import STORAGE_DIR_NAME
 from util.hash import HashOption
 
 @dataclass
@@ -19,7 +19,7 @@ class VerifyRequest(Validatable):
             self.filePath = f"{STORAGE_DIR_NAME}/{filePath}"
             
         if not isabs(self.signaturePath):
-            self.signaturePath = f"{SIGNATURE_DIR_NAME}/{signaturePath}"
+            self.signaturePath = f"{STORAGE_DIR_NAME}/{signaturePath}"
     
     def validate(self):
         fieldNames = {

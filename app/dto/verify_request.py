@@ -3,7 +3,7 @@ from dto.validatable import Validatable
 from util.file import isFileExist
 from os.path import isabs
 from constant import STORAGE_DIR_NAME, SIGNATURE_DIR_NAME
-
+from util.hash import HashOption
 
 @dataclass
 class VerifyRequest(Validatable):
@@ -29,6 +29,7 @@ class VerifyRequest(Validatable):
             "signaturePath": "Signature",
         }
         
+        self.isInEnum(self.hashOption, HashOption)
         self.isDigit(self.hashOption, fieldNames["hashOption"])
         self.fileExists(self.filePath, fieldNames["filePath"])
         self.fileExists(self.signaturePath, fieldNames["signaturePath"])

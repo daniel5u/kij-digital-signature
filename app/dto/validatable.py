@@ -8,7 +8,7 @@ class Validatable(ABC):
         pass
     
     def isDigit(self, x, varName: str):
-        if  not x.isdigit():
+        if not x.isdigit():
             raise TypeError(f"{varName} must be a number")
         
     def fileExists(self, filePath: str, varName: str):
@@ -18,3 +18,9 @@ class Validatable(ABC):
     def fileHasExtension(self, filePath: str, varName: str, extension: str):
         if not filePath.endswith(extension):
             raise Exception(f"{varName} extension isn't equal to '{extension}'")
+
+    def isInEnum(self, varName: int, container):
+        values = set(item.value for item in container)
+
+        if varName not in values:
+            raise Exception(f"{container(varName).name} is not part of {container}")

@@ -1,6 +1,7 @@
 import os
 import traceback
 from constant import ENABLE_LOG
+import logging
 
 
 def isFileExist(path):
@@ -12,7 +13,7 @@ def getFileName(path):
     return name
 
 def printException(e: Exception):
-    print(f"ERROR: {e}")
+    logging.critical(e)
     
     if ENABLE_LOG:
         print(f"Trace: {traceback.format_exc()}")

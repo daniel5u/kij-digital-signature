@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from dto.validatable import Validatable
-from util.file import isFileExist
 from os.path import isabs
 from constant import STORAGE_DIR_NAME
+from util.hash import HashOption
 
 
 @dataclass
@@ -23,6 +23,7 @@ class SignRequest(Validatable):
             "filePath": "File",
         }
         
+        self.isInEnum(self.hashOption, HashOption)
         self.isDigit(self.hashOption, fieldNames["hashOption"])
         self.fileExists(self.filePath, fieldNames["filePath"])
         self.fileHasExtension(self.filePath, fieldNames["filePath"], ".pdf")

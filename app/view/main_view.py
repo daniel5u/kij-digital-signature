@@ -1,4 +1,3 @@
-from enum import Enum
 import logging
 
 from dto.sign_request import SignRequest

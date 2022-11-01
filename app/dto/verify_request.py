@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from dto.validatable import Validatable
-from util.file import isFileExist
 from os.path import isabs
 from constant import STORAGE_DIR_NAME, SIGNATURE_DIR_NAME
 from util.hash import HashOption

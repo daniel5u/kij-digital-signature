@@ -25,7 +25,7 @@ PATH_TO_SIGNED_FILE = './storage/hello_SHA1.pdf'
 class GenerateKeyTest(unittest.TestCase):
     def testGenerateNewRSAKeys(self):
         """
-        Test generation of RSA key pairs
+        Verify generation of RSA key pairs
         """
 
         # 0. Clean previous keys if exist
@@ -43,7 +43,7 @@ class GenerateKeyTest(unittest.TestCase):
 class SignPdfTest(unittest.TestCase):
     def testSignSignatureToPdf(self):
         """
-        Test embedding signature to pdf
+        Verify embedding signature to pdf
         """
 
         #0. Clean previous signed pdf if exists
@@ -58,6 +58,23 @@ class SignPdfTest(unittest.TestCase):
         signResponse = Sign.do(signRequest)
         self.assertIsInstance(signResponse, SignResponse)
         self.assertTrue(isFileExists(PATH_TO_SIGNED_FILE))
+
+    def testSignInvalidHashOption(self):
+        """
+        Verify sign when invalid hash option is given
+        """
+
+        SignRequest("not a hash option", PATH_TO_UNSIGNED_FILE)
+        self.assertRaises(Exception)
+
+    def testSignInvalidPathFile(self):
+        """
+        Verify sign when invalid path file is given
+        """
+        
+        SignRequest(str(HashOption.SHA1.value), "system32/delete/all")
+        self.assertRaises(Exception)
+
 
 if __name__ == '__main__':
     unittest.main()

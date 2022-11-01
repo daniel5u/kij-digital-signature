@@ -1,10 +1,11 @@
+import os
+
+from constant import KEY_PAIR_DIR_NAME, PRIVATE_KEY_FILE_NAME, STORAGE_DIR_NAME
+from crypto.rsa import PyCryptodomeRSA
 from dto.sign_request import SignRequest
 from dto.sign_response import SignResponse
-from util.hash import getHash, HashOption
 from util.file import getFileName, printException
-from constant import SIGNATURE_DIR_NAME, KEY_PAIR_DIR_NAME, PRIVATE_KEY_FILE_NAME
-from crypto.rsa import PyCryptodomeRSA
-import os
+from util.hash import getHash, HashOption
 
 
 class Sign:
@@ -31,13 +32,14 @@ class Sign:
         )
         
         signaturePath = os.path.join(
-            SIGNATURE_DIR_NAME,
-            f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}"
+            STORAGE_DIR_NAME,
+            f"{getFileName(signRequest.filePath)}_{HashOption(hashOption).name}.pdf"
         )
 
-        PyCryptodomeRSA.exportSignature(
-            signature,
-            signaturePath
+        PyCryptodomeRSA.embedSignatureToPdf(
+            signRequest.filePath,
+            signaturePath,
+            signature
         )
         
         return SignResponse(

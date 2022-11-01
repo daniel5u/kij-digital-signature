@@ -56,6 +56,7 @@ class SignPdfTest(unittest.TestCase):
 
         #2. Sign
         signResponse = Sign.do(signRequest)
+        self.assertIsInstance(signResponse, SignResponse)
         self.assertTrue(isFileExists(PATH_TO_SIGNED_FILE))
 
 if __name__ == '__main__':

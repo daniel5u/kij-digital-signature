@@ -1,5 +1,7 @@
 from Crypto.PublicKey import RSA
 from PyPDF2 import PdfReader, PdfWriter
+from constant import SIGNATURE_METADATA_KEY
+
 
 class PyCryptodomeRSA:
     @staticmethod
@@ -41,9 +43,6 @@ class PyCryptodomeRSA:
         destinationPath: str,
         signature: str
     ):
-        # TODO refactor this as constant, verify gonna need it
-        SIGNATURE_METADATA_KEY = "/Signature"
-
         reader: PdfReader = PdfReader(originPath)
         writer: PdfWriter = PdfWriter()
 
@@ -62,7 +61,6 @@ class PyCryptodomeRSA:
         # Export Signed PDF file
         with open(destinationPath, "wb+") as f:
             writer.write(f)
-
 
     @staticmethod
     def importSignature(filePath):

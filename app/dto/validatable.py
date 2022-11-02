@@ -13,7 +13,7 @@ class Validatable(ABC):
         
     def fileExists(self, filePath: str, varName: str):
         if not exists(filePath):
-            raise Exception(f"{varName} not found")
+            raise Exception(f"{varName} file not found")
         
     def fileHasExtension(self, filePath: str, varName: str, extension: str):
         if not filePath.endswith(extension):

@@ -33,4 +33,4 @@ class VerifyRequest(Validatable):
         self.fileExists(self.filePath, fieldNames["filePath"])
         self.fileExists(self.signaturePath, fieldNames["signaturePath"])
         self.fileHasExtension(self.filePath, fieldNames["filePath"], ".pdf")
-        self.fileHasExtension(self.signaturePath, fieldNames["signaturePath"], "")
+        self.fileHasExtension(self.signaturePath, fieldNames["signaturePath"], ".pdf")
